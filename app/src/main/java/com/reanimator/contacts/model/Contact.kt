@@ -4,7 +4,7 @@ import android.graphics.drawable.Drawable
 
 data class Contact(
     val id: Int,
-    val name: String,
-    val phone: String,
+    val name: Int,
+    val phone: Int,
     val imageResourceId: Int,
 )

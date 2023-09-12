@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">Contacts</string>
+
+    <string name="contacts_name_placeholder">Name</string>
+    <string name="contacts_phone_placeholder">+375294562378</string>
+
+    <string name="irakli">Irakli</string>
+    <string name="irakli_phone">+995559453823</string>
+
+    <string name="ivan">Ivan</string>
+    <string name="ivan_phone">+375338720124</string>
+
+    <string name="esenia">Esenia</string>
+    <string name="esenia_phone">+380449201243</string>
+
+    <string name="helga">Helga</string>
+    <string name="helga_phone">+491729394685</string>
+    
+    <string name="contacts_list_fragment_label">Contacts</string>
+    <string name="contact_detail_fragment_label">Detail Info</string>
 </resources>

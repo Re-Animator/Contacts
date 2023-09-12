@@ -8,26 +8,26 @@ object ContactsData {
         return arrayListOf(
             Contact(
                 id = 1,
-                name = "Irakli",
-                phone = "+995559453823",
+                name = R.string.irakli,
+                phone = R.string.irakli_phone,
                 imageResourceId = R.drawable.ic_contact_circle
             ),
             Contact(
                 id = 2,
-                name = "Ivan",
-                phone = "+375338720124",
+                name = R.string.ivan,
+                phone = R.string.ivan_phone,
                 imageResourceId = R.drawable.ic_contact_circle
             ),
             Contact(
                 id = 2,
-                name = "Esenia",
-                phone = "+380449201243",
+                name = R.string.esenia,
+                phone = R.string.esenia_phone,
                 imageResourceId = R.drawable.ic_contact_circle
             ),
             Contact(
                 id = 2,
-                name = "Helga",
-                phone = "+491729394685",
+                name = R.string.helga,
+                phone = R.string.helga_phone,
                 imageResourceId = R.drawable.ic_contact_circle
             )
         )
