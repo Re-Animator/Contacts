@@ -1,32 +1,25 @@
 package com.reanimator.contacts
 
 import android.os.Bundle
+import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupWithNavController
+import androidx.fragment.app.commit
 import com.reanimator.contacts.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var appBarConfiguration: AppBarConfiguration
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val navHostFragment = supportFragmentManager
-            .findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
-        val navController = navHostFragment.navController
-        appBarConfiguration = AppBarConfiguration(navController.graph)
-        binding.toolbar.setupWithNavController(navController, appBarConfiguration)
-    }
+        onBackPressedDispatcher.addCallback(this) {
+            finishAndRemoveTask()
+        }
 
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
-        return navController.navigateUp(appBarConfiguration)
-                || super.onSupportNavigateUp()
+        supportFragmentManager.commit {
+            replace(R.id.left_panel_fragment_container, ContactsListFragment())
+            setReorderingAllowed(true)
+        }
     }
 }

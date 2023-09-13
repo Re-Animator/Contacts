@@ -57,7 +57,6 @@ dependencies {
     // Coil
     implementation ("io.coil-kt:coil:1.1.1")
 
-
     implementation ("androidx.leanback:leanback:1.0.0")
     implementation ("androidx.slidingpanelayout:slidingpanelayout:1.2.0")
 }

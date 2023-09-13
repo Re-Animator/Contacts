@@ -6,13 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.fragment.app.activityViewModels
+import androidx.slidingpanelayout.widget.SlidingPaneLayout
 import coil.load
 import com.reanimator.contacts.databinding.FragmentContactDetailBinding
 
 private const val EDIT_STATE = true
 private const val SAVE_STATE = false
-private const val INVALID_INPUT = "Invalid input"
+private const val INVALID_INPUT_MESSAGE = "Invalid input"
+private const val CHANGES_SAVED_MESSAGE = "Changes successfully saved"
+private const val CHANGES_NOT_SAVED_MESSAGE = "Changes not saved"
 
 class ContactDetailFragment : Fragment() {
     private val contactsViewModel: ContactViewModel by activityViewModels()
@@ -34,9 +38,11 @@ class ContactDetailFragment : Fragment() {
 
         contactsViewModel.currentContact.observe(this.viewLifecycleOwner) {
             with(binding) {
-                contactsName.setText(it.name)
-                contactsPhone.setText(it.phone)
-                contactsImage.load(it.imageResourceId)
+                if (it != null) {
+                    contactsName.setText(it.name)
+                    contactsPhone.setText(it.phone)
+                    contactsImage.load(it.imageResourceId)
+                }
             }
         }
 
@@ -50,32 +56,28 @@ class ContactDetailFragment : Fragment() {
                             name = contactsName.text.toString(),
                             phoneNumber = contactsPhone.text.toString()
                         )
+                        Toast.makeText(
+                            requireActivity(),
+                            CHANGES_SAVED_MESSAGE,
+                            Toast.LENGTH_SHORT).show()
                         editButtonChangeState(SAVE_STATE)
                     }
                 }
             }
         }
-    }
 
-    private fun checkForValidInput(): Boolean {
-        with(binding) {
-            if (contactsName.text.isEmpty() || contactsPhone.text.isEmpty()) {
-                Toast.makeText(requireActivity(), INVALID_INPUT, Toast.LENGTH_SHORT).show()
-                return false
-            } else {
-                return true
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            if(binding.editButton.tag.equals(getString(R.string.button_tag_save))) {
+                Toast.makeText(requireActivity(),
+                    CHANGES_NOT_SAVED_MESSAGE,
+                    Toast.LENGTH_SHORT)
+                    .show()
             }
+            editButtonChangeState(SAVE_STATE)
+            val slidingPaneLayout = requireActivity()
+                .findViewById<SlidingPaneLayout>(R.id.sliding_pane_layout)
+            slidingPaneLayout.closePane()
         }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        editButtonChangeState(SAVE_STATE)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     private fun editButtonChangeState(state: Boolean) {
@@ -90,5 +92,25 @@ class ContactDetailFragment : Fragment() {
                 editButton.setImageResource(R.drawable.ic_contact_edit)
             }
         }
+    }
+
+    private fun checkForValidInput(): Boolean {
+        with(binding) {
+            if (contactsName.text.isEmpty() || contactsPhone.text.isEmpty()) {
+                Toast.makeText(
+                    requireActivity(),
+                    INVALID_INPUT_MESSAGE,
+                    Toast.LENGTH_SHORT
+                ).show()
+                return false
+            } else {
+                return true
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
