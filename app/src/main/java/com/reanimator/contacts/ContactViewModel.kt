@@ -11,16 +11,26 @@ class ContactViewModel : ViewModel(){
     val currentContact: LiveData<Contact>
         get() = _currentContact
 
-    private var _contactsData: ArrayList<Contact> = ArrayList()
-    val contactsData: ArrayList<Contact>
+    private val _contactsData: MutableLiveData<List<Contact>> =
+        MutableLiveData(ContactsData.getContactsData())
+    val contactsData: LiveData<List<Contact>>
         get() = _contactsData
 
     init {
-        _contactsData = ContactsData.getContactsData()
-        _currentContact.value = _contactsData[0]
+        _currentContact.value = _contactsData.value?.get(0)
     }
 
     fun updateCurrentContact(contact: Contact) {
         _currentContact.value = contact
+    }
+
+    private fun getData() = ContactsData.getContactsData()
+
+    fun updateContactInfo(name: String, phoneNumber: String) {
+        val editedContact = _currentContact.value?.copy(name = name, phone = phoneNumber)
+        if (editedContact != null) {
+            ContactsData.updateContact(editedContact)
+            _contactsData.value = getData()
+        }
     }
 }

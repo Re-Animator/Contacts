@@ -1,19 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2021 The Android Open Source Project
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~ You may obtain a copy of the License at
-  ~
-  ~      http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  -->
-
+<?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -26,7 +11,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/contacts_image"
@@ -39,28 +24,45 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@drawable/ic_contact_circle" />
 
-        <TextView
+        <EditText
             android:id="@+id/contacts_name"
             style="@style/ContactsDetailName"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:padding="16dp"
-            tools:text="@string/contacts_name_placeholder"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark"
+            android:enabled="false"
+            android:text="@string/contacts_name_placeholder"
+            android:hint="@string/name"
+            android:inputType="textPersonName"
             app:layout_constraintTop_toBottomOf="@id/contacts_image"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            android:autofillHints="name" />
 
-        <TextView
+        <EditText
             android:id="@+id/contacts_phone"
             style="@style/ContactsDetailPhoneNumber"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:padding="8dp"
+            android:enabled="false"
+            android:inputType="phone"
+            android:hint="@string/phone_number"
             android:text="@string/contacts_phone_placeholder"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/contacts_name" />
+            app:layout_constraintTop_toBottomOf="@+id/contacts_name"
+            android:autofillHints="" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/edit_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tag="@string/button_tag_edit"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/ic_contact_edit"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:contentDescription="@string/button_to_edit_and_save_contacts_info"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

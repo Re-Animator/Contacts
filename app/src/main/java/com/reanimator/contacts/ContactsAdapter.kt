@@ -1,34 +1,29 @@
 package com.reanimator.contacts
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.reanimator.contacts.databinding.ContactsListItemBinding
-
 import com.reanimator.contacts.model.Contact
 
 class ContactsAdapter(private val onItemClicked: (Contact) -> Unit) :
     ListAdapter<Contact, ContactsAdapter.ContactsViewHolder>(DiffCallback) {
 
-    private lateinit var context: Context
-
     class ContactsViewHolder(private var binding: ContactsListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(contact: Contact, context: Context) {
-            binding.contactsName.text = context.getString(contact.name)
-            binding.contactsPhone.text = context.getString(contact.phone)
-            binding.contactsImage.load(contact.imageResourceId)
+        fun bind(contact: Contact) {
+            binding.apply {
+                contactsName.text = contact.name
+                contactsPhone.text = contact.phone
+                contactsImage.setImageResource(contact.imageResourceId)
+            }
         }
     }
 
     override fun onCreateViewHolder(
         parent: ViewGroup, viewType: Int): ContactsViewHolder {
-        context = parent.context
         return ContactsViewHolder(
             ContactsListItemBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
@@ -41,22 +36,16 @@ class ContactsAdapter(private val onItemClicked: (Contact) -> Unit) :
         holder.itemView.setOnClickListener {
             onItemClicked(current)
         }
-        holder.bind(current, context)
+        holder.bind(current)
     }
 
     companion object {
         private val DiffCallback = object : DiffUtil.ItemCallback<Contact>() {
-            override fun areItemsTheSame(oldItem: Contact, newItem: Contact): Boolean {
-                return (oldItem.id == newItem.id ||
-                        oldItem.name == newItem.name ||
-                        oldItem.phone == newItem.phone ||
-                        oldItem.imageResourceId == newItem.imageResourceId
-                        )
-            }
+            override fun areItemsTheSame(oldItem: Contact, newItem: Contact): Boolean =
+                oldItem.id == newItem.id
 
-            override fun areContentsTheSame(oldItem: Contact, newItem: Contact): Boolean {
-                return oldItem == newItem
-            }
+            override fun areContentsTheSame(oldItem: Contact, newItem: Contact): Boolean =
+                oldItem.name == newItem.name && oldItem.phone == newItem.phone
         }
     }
 }

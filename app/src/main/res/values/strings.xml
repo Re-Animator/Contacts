@@ -15,7 +15,16 @@
 
     <string name="helga">Helga</string>
     <string name="helga_phone">+491729394685</string>
-    
+
     <string name="contacts_list_fragment_label">Contacts</string>
     <string name="contact_detail_fragment_label">Detail Info</string>
+
+    <string name="phone_number">Phone number</string>
+    <string name="name">Name</string>
+
+    <string name="button_to_edit_and_save_contacts_info">Button to edit and save contacts info</string>
+
+    <string name="button_tag_edit">edit</string>
+
+    <string name="button_tag_save">save</string>
 </resources>

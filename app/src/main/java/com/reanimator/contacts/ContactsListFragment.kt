@@ -12,6 +12,7 @@ import com.reanimator.contacts.databinding.FragmentContactsListBinding
 
 class ContactsListFragment : Fragment() {
     private val contactsViewModel: ContactViewModel by activityViewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,8 +35,12 @@ class ContactsListFragment : Fragment() {
             binding.slidingPaneLayout.openPane()
         }
         binding.contactsList.adapter = adapter
-        adapter.submitList(contactsViewModel.contactsData)
 
+        contactsViewModel.contactsData.observe(this.viewLifecycleOwner) {
+            it?.let {
+                adapter.submitList(it)
+            }
+        }
     }
 }
 

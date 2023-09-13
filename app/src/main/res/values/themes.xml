@@ -31,7 +31,9 @@
     <style name="ContactsListName" parent="TextAppearance.MaterialComponents.Headline5"/>
     <style name="ContactsListPhone" parent="TextAppearance.MaterialComponents.Headline6"/>
 
-    <style name="ContactsDetailPhoneNumber" parent="TextAppearance.MaterialComponents.Headline6"/>
+    <style name="ContactsDetailPhoneNumber" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="android:textColor">@color/black</item>
+    </style>
 
     <style name="Theme.Contacts.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
 </resources>
