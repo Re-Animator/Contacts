@@ -1,5 +1,6 @@
 package com.reanimator.contacts
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -37,5 +38,9 @@ class ContactViewModel : ViewModel() {
     fun deleteContact() {
         ContactsData.deleteContact(_currentContact.value!!)
         _contactsData.value = getData()
+    }
+
+    fun filteredData(query: String) {
+        _contactsData.value = ContactsData.getFilteredData(query.lowercase())
     }
 }

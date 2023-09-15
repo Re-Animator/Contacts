@@ -61,4 +61,8 @@ object ContactsData {
     fun deleteContact(contact: Contact) {
         _contactsData.remove(contact)
     }
+
+    fun getFilteredData(query: String)  = _contactsData.filter {
+        it.name.lowercase().contains(query) || it.phone.lowercase().contains(query)
+    }
 }
