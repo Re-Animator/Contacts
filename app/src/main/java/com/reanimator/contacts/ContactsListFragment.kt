@@ -20,17 +20,20 @@ private const val DELETE_DIALOG_FRAGMENT_TAG = "ContactDeleteDialogFragment"
 
 class ContactsListFragment : Fragment(), ContactDeleteDialogFragment.ConfirmationListener {
     private val contactsViewModel: ContactViewModel by activityViewModels()
+    private var _binding: FragmentContactsListBinding? = null
+    private val binding
+        get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return FragmentContactsListBinding.inflate(inflater, container, false).root
+        _binding = FragmentContactsListBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val binding = FragmentContactsListBinding.bind(view)
         binding.searchView.setQuery(contactsViewModel.getSearchText(), true)
         val slidingPaneLayout = binding.slidingPaneLayout
         slidingPaneLayout.lockMode = SlidingPaneLayout.LOCK_MODE_LOCKED
@@ -42,6 +45,8 @@ class ContactsListFragment : Fragment(), ContactDeleteDialogFragment.Confirmatio
 
         val adapter = ContactsAdapter(
             onItemClicked = {
+                binding.detailContainer.visibility = View.VISIBLE
+                replaceFragmentContainerWithNewFragment()
                 contactsViewModel.updateCurrentContact(it)
                 binding.slidingPaneLayout.openPane()
             },
@@ -89,9 +94,19 @@ class ContactsListFragment : Fragment(), ContactDeleteDialogFragment.Confirmatio
             Toast.LENGTH_SHORT
         ).show()
         contactsViewModel.deleteContact()
+        binding.detailContainer.visibility = View.GONE
+        requireActivity().supportFragmentManager.popBackStack()
     }
 
     override fun cancelButtonClicked() {
+    }
+
+    private fun replaceFragmentContainerWithNewFragment() {
+        requireActivity().supportFragmentManager.commit {
+            replace(R.id.detail_container, ContactDetailFragment())
+            setReorderingAllowed(true)
+            addToBackStack("detail")
+        }
     }
 }
 
@@ -112,16 +127,14 @@ class ContactsListOnBackPressedCallback(
     }
 
     override fun onPanelOpened(panel: View) {
-        activity.supportFragmentManager.commit {
-            add(R.id.detail_container, ContactDetailFragment())
-            setReorderingAllowed(true)
-            addToBackStack(null)
-        }
         isEnabled = true
     }
 
     override fun onPanelClosed(panel: View) {
         activity.supportFragmentManager.popBackStack()
+        activity.supportFragmentManager.beginTransaction()
+            .remove(ContactDetailFragment())
+            .commit()
         isEnabled = false
     }
 }
