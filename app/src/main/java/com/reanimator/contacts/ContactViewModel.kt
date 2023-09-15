@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.reanimator.contacts.data.ContactsData
 import com.reanimator.contacts.model.Contact
 
-class ContactViewModel : ViewModel(){
+class ContactViewModel : ViewModel() {
     private var _currentContact: MutableLiveData<Contact> = MutableLiveData()
     val currentContact: LiveData<Contact>
         get() = _currentContact
@@ -32,5 +32,10 @@ class ContactViewModel : ViewModel(){
             ContactsData.updateContact(editedContact)
             _contactsData.value = getData()
         }
+    }
+
+    fun deleteContact() {
+        ContactsData.deleteContact(_currentContact.value!!)
+        _contactsData.value = getData()
     }
 }

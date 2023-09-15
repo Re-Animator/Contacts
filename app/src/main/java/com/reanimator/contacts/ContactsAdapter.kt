@@ -5,10 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.reanimator.contacts.databinding.ContactsListItemBinding
 import com.reanimator.contacts.model.Contact
 
-class ContactsAdapter(private val onItemClicked: (Contact) -> Unit) :
+class ContactsAdapter(
+    private val onItemClicked: (Contact) -> Unit,
+    private val onItemLongClicked: (Contact) -> Unit
+) :
     ListAdapter<Contact, ContactsAdapter.ContactsViewHolder>(DiffCallback) {
 
     class ContactsViewHolder(private var binding: ContactsListItemBinding) :
@@ -17,13 +21,14 @@ class ContactsAdapter(private val onItemClicked: (Contact) -> Unit) :
             binding.apply {
                 contactsName.text = contact.name
                 contactsPhone.text = contact.phone
-                contactsImage.setImageResource(contact.imageResourceId)
+                contactsImage.load(contact.imageResource)
             }
         }
     }
 
     override fun onCreateViewHolder(
-        parent: ViewGroup, viewType: Int): ContactsViewHolder {
+        parent: ViewGroup, viewType: Int
+    ): ContactsViewHolder {
         return ContactsViewHolder(
             ContactsListItemBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
@@ -35,6 +40,10 @@ class ContactsAdapter(private val onItemClicked: (Contact) -> Unit) :
         val current = getItem(position)
         holder.itemView.setOnClickListener {
             onItemClicked(current)
+        }
+        holder.itemView.setOnLongClickListener {
+            onItemLongClicked(current)
+            true
         }
         holder.bind(current)
     }

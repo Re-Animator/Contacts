@@ -18,6 +18,8 @@ private const val INVALID_INPUT_MESSAGE = "Invalid input"
 private const val CHANGES_SAVED_MESSAGE = "Changes successfully saved"
 private const val CHANGES_NOT_SAVED_MESSAGE = "Changes not saved"
 
+const val TAG = "DetailFragment"
+
 class ContactDetailFragment : Fragment() {
     private val contactsViewModel: ContactViewModel by activityViewModels()
 
@@ -41,7 +43,7 @@ class ContactDetailFragment : Fragment() {
                 if (it != null) {
                     contactsName.setText(it.name)
                     contactsPhone.setText(it.phone)
-                    contactsImage.load(it.imageResourceId)
+                    contactsImage.load(it.imageResource)
                 }
             }
         }
@@ -59,7 +61,8 @@ class ContactDetailFragment : Fragment() {
                         Toast.makeText(
                             requireActivity(),
                             CHANGES_SAVED_MESSAGE,
-                            Toast.LENGTH_SHORT).show()
+                            Toast.LENGTH_SHORT
+                        ).show()
                         editButtonChangeState(SAVE_STATE)
                     }
                 }
@@ -67,10 +70,12 @@ class ContactDetailFragment : Fragment() {
         }
 
         requireActivity().onBackPressedDispatcher.addCallback(this) {
-            if(binding.editButton.tag.equals(getString(R.string.button_tag_save))) {
-                Toast.makeText(requireActivity(),
+            if (binding.editButton.tag.equals(getString(R.string.button_tag_save))) {
+                Toast.makeText(
+                    requireActivity(),
                     CHANGES_NOT_SAVED_MESSAGE,
-                    Toast.LENGTH_SHORT)
+                    Toast.LENGTH_SHORT
+                )
                     .show()
             }
             editButtonChangeState(SAVE_STATE)

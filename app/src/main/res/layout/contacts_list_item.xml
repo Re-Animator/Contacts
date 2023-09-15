@@ -1,28 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_margin="8dp"
-    app:cardElevation="4dp"
-    app:strokeWidth="1dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     app:cardCornerRadius="10dp"
-    app:strokeColor="@android:color/background_light">
+    app:cardElevation="4dp"
+    app:strokeColor="@android:color/background_light"
+    app:strokeWidth="1dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        
+
         <ImageView
             android:id="@+id/contacts_image"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:contentDescription="@null"
-            app:srcCompat="@drawable/ic_contact_circle"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
-        
+            app:srcCompat="@drawable/ic_contact_circle" />
+
         <TextView
             android:id="@+id/contacts_name"
             style="@style/ContactsListName"
@@ -37,7 +36,7 @@
             app:layout_constraintHorizontal_bias="0.1"
             app:layout_constraintStart_toEndOf="@id/contacts_image"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="@string/contacts_name_placeholder"/>
+            tools:text="@string/contacts_name_placeholder" />
 
         <TextView
             android:id="@+id/contacts_phone"
@@ -46,12 +45,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:padding="8dp"
-            app:layout_constraintHorizontal_bias="0.1"
             android:text="@string/contacts_phone_placeholder"
             android:textColor="?android:textColorSecondary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.1"
             app:layout_constraintStart_toEndOf="@+id/contacts_image"
-            app:layout_constraintTop_toBottomOf="@+id/contacts_name"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@+id/contacts_name" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

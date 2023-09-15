@@ -51,12 +51,12 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
     // navigation
-    implementation ("androidx.navigation:navigation-fragment-ktx:2.7.2")
-    implementation ("androidx.navigation:navigation-ui-ktx:2.7.2")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.7.2")
+    implementation("androidx.navigation:navigation-ui-ktx:2.7.2")
 
     // Coil
-    implementation ("io.coil-kt:coil:1.1.1")
+    implementation("io.coil-kt:coil:1.1.1")
 
-    implementation ("androidx.leanback:leanback:1.0.0")
-    implementation ("androidx.slidingpanelayout:slidingpanelayout:1.2.0")
+    implementation("androidx.leanback:leanback:1.0.0")
+    implementation("androidx.slidingpanelayout:slidingpanelayout:1.2.0")
 }
