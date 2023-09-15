@@ -62,7 +62,7 @@ object ContactsData {
         _contactsData.remove(contact)
     }
 
-    fun getFilteredData(query: String)  = _contactsData.filter {
+    fun getFilteredData(query: String) = _contactsData.filter {
         it.name.lowercase().contains(query) || it.phone.lowercase().contains(query)
     }
 }

@@ -63,7 +63,7 @@ class ContactsListFragment : Fragment(), ContactDeleteDialogFragment.Confirmatio
             }
         }
 
-        binding.searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean = false
 
             override fun onQueryTextChange(searchedText: String?): Boolean {
