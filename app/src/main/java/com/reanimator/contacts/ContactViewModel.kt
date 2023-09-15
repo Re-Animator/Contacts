@@ -7,6 +7,10 @@ import com.reanimator.contacts.data.ContactsData
 import com.reanimator.contacts.model.Contact
 
 class ContactViewModel : ViewModel() {
+    private val _searchBarText = MutableLiveData("")
+    val searchBarText: LiveData<String>
+        get() = _searchBarText
+
     private var _currentContact: MutableLiveData<Contact> = MutableLiveData()
     val currentContact: LiveData<Contact>
         get() = _currentContact
@@ -40,6 +44,9 @@ class ContactViewModel : ViewModel() {
     }
 
     fun filteredData(query: String) {
+        _searchBarText.value = query
         _contactsData.value = ContactsData.getFilteredData(query.lowercase())
     }
+
+    fun getSearchText(): String = searchBarText.value.toString()
 }

@@ -31,6 +31,7 @@ class ContactsListFragment : Fragment(), ContactDeleteDialogFragment.Confirmatio
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val binding = FragmentContactsListBinding.bind(view)
+        binding.searchView.setQuery(contactsViewModel.getSearchText(), true)
         val slidingPaneLayout = binding.slidingPaneLayout
         slidingPaneLayout.lockMode = SlidingPaneLayout.LOCK_MODE_LOCKED
 
