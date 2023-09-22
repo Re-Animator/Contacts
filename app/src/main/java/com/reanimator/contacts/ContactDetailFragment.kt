@@ -1,12 +1,12 @@
 package com.reanimator.contacts
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.addCallback
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.slidingpanelayout.widget.SlidingPaneLayout
 import coil.load
@@ -58,11 +58,7 @@ class ContactDetailFragment : Fragment() {
                             name = contactsName.text.toString(),
                             phoneNumber = contactsPhone.text.toString()
                         )
-                        Toast.makeText(
-                            requireActivity(),
-                            CHANGES_SAVED_MESSAGE,
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        showContextualNotification(CHANGES_SAVED_MESSAGE)
                         editButtonChangeState(SAVE_STATE)
                     }
                 }
@@ -71,12 +67,7 @@ class ContactDetailFragment : Fragment() {
 
         requireActivity().onBackPressedDispatcher.addCallback(this) {
             if (binding.editButton.tag.equals(getString(R.string.button_tag_save))) {
-                Toast.makeText(
-                    requireActivity(),
-                    CHANGES_NOT_SAVED_MESSAGE,
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
+                showContextualNotification(CHANGES_NOT_SAVED_MESSAGE)
             }
             editButtonChangeState(SAVE_STATE)
             val slidingPaneLayout = requireActivity()
@@ -89,6 +80,7 @@ class ContactDetailFragment : Fragment() {
         with(binding) {
             contactsName.isEnabled = state
             contactsPhone.isEnabled = state
+
             if (state == EDIT_STATE) {
                 editButton.tag = getString(R.string.button_tag_save)
                 editButton.setImageResource(R.drawable.ic_contact_save)
@@ -102,16 +94,20 @@ class ContactDetailFragment : Fragment() {
     private fun checkForValidInput(): Boolean {
         with(binding) {
             if (contactsName.text.isEmpty() || contactsPhone.text.isEmpty()) {
-                Toast.makeText(
-                    requireActivity(),
-                    INVALID_INPUT_MESSAGE,
-                    Toast.LENGTH_SHORT
-                ).show()
+                showContextualNotification(INVALID_INPUT_MESSAGE)
                 return false
             } else {
                 return true
             }
         }
+    }
+
+    private fun showContextualNotification(message: String) {
+        Toast.makeText(
+            requireActivity(),
+            message,
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     override fun onDestroyView() {

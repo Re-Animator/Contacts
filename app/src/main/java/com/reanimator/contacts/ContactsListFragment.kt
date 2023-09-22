@@ -16,10 +16,12 @@ import androidx.slidingpanelayout.widget.SlidingPaneLayout
 import com.reanimator.contacts.databinding.FragmentContactsListBinding
 
 private const val ALERT_CONTACT_DELETED = "Contact deleted"
+private const val NOTIFICATION_CONTACT_DELETE_CANCELED = "Deletion canceled"
 private const val DELETE_DIALOG_FRAGMENT_TAG = "ContactDeleteDialogFragment"
 
 class ContactsListFragment : Fragment(), ContactDeleteDialogFragment.ConfirmationListener {
     private val contactsViewModel: ContactViewModel by activityViewModels()
+
     private var _binding: FragmentContactsListBinding? = null
     private val binding
         get() = _binding!!
@@ -35,9 +37,9 @@ class ContactsListFragment : Fragment(), ContactDeleteDialogFragment.Confirmatio
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.searchView.setQuery(contactsViewModel.getSearchText(), true)
+
         val slidingPaneLayout = binding.slidingPaneLayout
         slidingPaneLayout.lockMode = SlidingPaneLayout.LOCK_MODE_LOCKED
-
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
             ContactsListOnBackPressedCallback(slidingPaneLayout, requireActivity())
@@ -88,31 +90,36 @@ class ContactsListFragment : Fragment(), ContactDeleteDialogFragment.Confirmatio
     }
 
     override fun confirmButtonClicked() {
-        Toast.makeText(
-            requireActivity(),
-            ALERT_CONTACT_DELETED,
-            Toast.LENGTH_SHORT
-        ).show()
+        showContextualNotification(ALERT_CONTACT_DELETED)
         contactsViewModel.deleteContact()
         binding.detailContainer.visibility = View.GONE
         requireActivity().supportFragmentManager.popBackStack()
     }
 
     override fun cancelButtonClicked() {
+        showContextualNotification(NOTIFICATION_CONTACT_DELETE_CANCELED)
     }
 
     private fun replaceFragmentContainerWithNewFragment() {
         requireActivity().supportFragmentManager.commit {
             replace(R.id.detail_container, ContactDetailFragment())
             setReorderingAllowed(true)
-            addToBackStack("detail")
+            addToBackStack(null)
         }
+    }
+
+    private fun showContextualNotification(message: String) {
+        Toast.makeText(
+            requireActivity(),
+            message,
+            Toast.LENGTH_SHORT
+        ).show()
     }
 }
 
 class ContactsListOnBackPressedCallback(
-    slidingPaneLayout: SlidingPaneLayout,
-    private val activity: FragmentActivity
+    private val slidingPaneLayout: SlidingPaneLayout,
+    private val activity: FragmentActivity,
 ) : OnBackPressedCallback(slidingPaneLayout.isSlideable && slidingPaneLayout.isOpen),
     SlidingPaneLayout.PanelSlideListener {
 
@@ -121,6 +128,8 @@ class ContactsListOnBackPressedCallback(
     }
 
     override fun handleOnBackPressed() {
+        activity.supportFragmentManager.popBackStack()
+        slidingPaneLayout.closePane()
     }
 
     override fun onPanelSlide(panel: View, slideOffset: Float) {
@@ -131,10 +140,6 @@ class ContactsListOnBackPressedCallback(
     }
 
     override fun onPanelClosed(panel: View) {
-        activity.supportFragmentManager.popBackStack()
-        activity.supportFragmentManager.beginTransaction()
-            .remove(ContactDetailFragment())
-            .commit()
         isEnabled = false
     }
 }
